@@ -213,6 +213,61 @@
     .step-title { font-weight:700; font-size:0.87rem; margin-bottom:7px; }
     .step-desc  { font-size:0.78rem; color:var(--muted); line-height:1.5; }
 
+    /* ── HANDOVER (CORE USP) ── */
+    .handover-feature {
+      padding: 112px 0;
+      background:
+        radial-gradient(ellipse 85% 60% at 50% 50%, rgba(168,85,247,0.14), transparent),
+        var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .handover-top { text-align: center; max-width: 820px; margin: 0 auto 56px; }
+    .handover-top h2 { margin-bottom: 18px; }
+    .handover-top .body-text { max-width: 720px; margin: 0 auto; }
+    .handover-pillars {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin: 0 0 48px;
+    }
+    .hpill {
+      background: var(--card); border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 16px; padding: 28px 26px;
+      transition: all 0.22s ease;
+    }
+    .hpill:hover { border-color: rgba(168,85,247,0.42); background: rgba(168,85,247,0.05); transform: translateY(-3px); }
+    .hpill-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: grid; place-items: center; font-size: 1.35rem;
+      margin-bottom: 18px;
+      background: rgba(168,85,247,0.14);
+      border: 1px solid rgba(168,85,247,0.26);
+    }
+    .hpill h3 { font-size: 1rem; font-weight: 700; margin-bottom: 9px; letter-spacing: -0.01em; }
+    .hpill p  { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    .handover-chips-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #d8b4fe;
+      text-align: center; margin-bottom: 18px;
+    }
+    .handover-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 48px; }
+    .hchip {
+      padding: 9px 16px; border-radius: 999px;
+      background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.22);
+      color: #e9d5ff; font-size: 0.82rem; font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .handover-cta-wrap { text-align: center; }
+    .btn-cta-handover {
+      padding: 14px 28px; border-radius: 12px; font-size: 0.98rem; font-weight: 700;
+      background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+      color: white; box-shadow: 0 0 36px rgba(168,85,247,0.38);
+      transition: 0.2s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-cta-handover:hover { transform: translateY(-2px); box-shadow: 0 0 52px rgba(168,85,247,0.54); }
+
     /* ── MARKET ── */
     .market { padding: 96px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .mkt-numbers { display: grid; gap: 14px; }
@@ -259,6 +314,7 @@
       .steps{grid-template-columns:1fr 1fr;gap:28px;}
       .steps::after{display:none;}
       .nav-links{display:none;}
+      .handover-pillars{grid-template-columns:1fr;}
     }
     @media(max-width:600px){
       h1{font-size:2.3rem;}
@@ -268,6 +324,7 @@
       .features-grid,.roles-grid{grid-template-columns:1fr;}
       .steps{grid-template-columns:1fr;}
       .footer-inner{flex-direction:column;gap:14px;text-align:center;}
+      .handover-feature{padding:72px 0;}
     }
   </style>
 </head>
@@ -302,6 +359,7 @@
       <div class="nav-links">
         <a href="#problem">Problem</a>
         <a href="#solution">Solution</a>
+        <a href="#handover">Handover</a>
         <a href="#traction">Traction</a>
         <a href="#market">Market</a>
         <a href="#team">Team</a>
@@ -436,6 +494,52 @@
         <h3>Role-Based Access</h3>
         <p>AccessManager contract governs who can issue warranties, log claims, and attach documents — no rogue edits, no data drift.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HANDOVER (CORE USP) ══ -->
+<section class="handover-feature" id="handover">
+  <div class="container">
+    <div class="handover-top">
+      <div class="section-label" style="color:#d8b4fe">The Handover Advantage</div>
+      <h2>Every platform handles day one.<br/>We handle <span class="gradient-text-purple">handover.</span></h2>
+      <p class="body-text">
+        Registering warranties at project completion is the easy part. The hard part is what happens when the building changes hands — when files scatter, links break, and custody gets blurry. Build Register is built around the moment most systems fall apart.
+      </p>
+    </div>
+
+    <div class="handover-pillars">
+      <div class="hpill">
+        <div class="hpill-icon">🪪</div>
+        <h3>Digital Property Asset Passport</h3>
+        <p>Every property gets a verifiable digital record that travels with the building — carrying its warranties, documents, and history through every transfer.</p>
+      </div>
+      <div class="hpill">
+        <div class="hpill-icon">⚡</div>
+        <h3>One Atomic Transfer</h3>
+        <p>When a property changes hands, the Passport moves — and every warranty, document, and claim record moves with it. One transaction. Zero files lost.</p>
+      </div>
+      <div class="hpill">
+        <div class="hpill-icon">🛡️</div>
+        <h3>Survives Any Shutdown</h3>
+        <p>The new owner's warranty record doesn't depend on Build Register, the developer, or the contractor staying alive. Records persist on-chain with documents on IPFS.</p>
+      </div>
+    </div>
+
+    <div class="handover-chips-label">Works for every kind of handover</div>
+    <div class="handover-chips">
+      <span class="hchip">🏗️ Developer → Owner</span>
+      <span class="hchip">🔄 Resale</span>
+      <span class="hchip">👨‍👩‍👧 Inheritance</span>
+      <span class="hchip">🏦 Foreclosure</span>
+      <span class="hchip">📝 Tenant Delegation</span>
+      <span class="hchip">🏢 Condo / Multi-owner</span>
+      <span class="hchip">🤝 M&amp;A Portfolio</span>
+    </div>
+
+    <div class="handover-cta-wrap">
+      <a class="btn-cta-handover" href="/handover.html">See the full handover architecture →</a>
     </div>
   </div>
 </section>
