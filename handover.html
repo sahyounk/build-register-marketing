@@ -373,10 +373,12 @@
         <div class="tldr-label">TL;DR</div>
         <p>
           Every property we onboard is issued a <strong>Digital Property Asset Passport</strong> — a verifiable
-          digital record that travels with the building. Every warranty issued against it is bound to its
-          <strong>Passport Vault</strong>. Every supporting document lives on <strong>IPFS</strong>, content-addressed.
-          When the property changes hands, the Passport moves — and everything bound to it moves with it, atomically,
-          with zero files lost and a permanent audit trail the new owner controls.
+          on-chain identity that travels with the building. Warranties and document references are bound to its
+          <strong>Passport Vault</strong>. The documents themselves live in <strong>the customer's chosen storage</strong>
+          (DMS, private repository, on-prem, S3 — whatever their compliance posture requires), with cryptographic
+          hashes anchored on-chain for independent integrity verification. When the property changes hands, the
+          Passport and its references move in a single atomic transfer — the new owner inherits a complete,
+          verifiable chain of custody without the platform ever holding the underlying data.
         </p>
       </div>
     </div>
@@ -462,7 +464,7 @@
           <div class="wstep-num">3</div>
           <div class="wstep-body">
             <h4>You review the Handover Package before accepting</h4>
-            <p>You can see exactly what's being transferred: 14 warranties, 38 documents, 3 open claims, 2 expired warranties marked for historical record. You can verify each one independently — on-chain IDs, IPFS document hashes, issue dates, responsible parties. Nothing is hidden.</p>
+            <p>You can see exactly what's being transferred: 14 warranties, 38 document references, 3 open claims, 2 expired warranties marked for historical record. Each is independently verifiable — on-chain IDs, anchored document hashes, issue dates, responsible parties. Documents are pulled from the seller's systems or the issuing contractor's — wherever the customer's storage policy puts them — and their integrity is checked against the on-chain hashes before you accept. Nothing is hidden.</p>
             <span class="tag">Full transparency before signing</span>
           </div>
         </div>
@@ -480,7 +482,7 @@
           <div class="wstep-num">5</div>
           <div class="wstep-body">
             <h4>Everything is yours — and it stays yours even if Build Register disappears</h4>
-            <p>You now control the wallet that owns the property's full warranty history. You can verify coverage, file claims, transfer to a future buyer, or delegate view access to your insurer, property manager, or bank. The data lives on-chain and on IPFS. Our servers being up is not a precondition for your records being valid.</p>
+            <p>You now control the on-chain identity for the property and its warranty registry. Coverage verifications, claims, future transfers, and delegated viewer access to insurers, property managers, or banks all flow through your wallet. The warranty records themselves live in your chosen storage — you inherit the seller's handover package into your own systems, so nothing depends on Build Register's servers staying up. The registry is on-chain; the data is yours.</p>
             <span class="tag">Durable · Self-sovereign · Portable</span>
           </div>
         </div>
@@ -530,9 +532,9 @@
         <div class="wstep">
           <div class="wstep-num">3</div>
           <div class="wstep-body">
-            <h4>Supporting documents are pinned to IPFS at issuance</h4>
-            <p>PDFs, test reports, as-built drawings, compliance certificates. All content-addressed on IPFS, with the CID stored on-chain against the relevant warranty. The document itself is verifiable by anyone, forever, without relying on your servers, our servers, or any company staying alive.</p>
-            <span class="tag">IPFS · Content-addressed · Durable</span>
+            <h4>Supporting documents are anchored at issuance</h4>
+            <p>PDFs, test reports, as-built drawings, compliance certificates. The documents themselves live in your organisation's chosen storage — DMS, private repository, on-prem file server, S3, whatever your compliance posture requires. At the moment each is attached to a warranty, its cryptographic hash is written on-chain in the DocumentRegistry contract. Integrity is independently verifiable forever; the document itself stays under your control and off public networks.</p>
+            <span class="tag">Customer-controlled storage · On-chain integrity hash</span>
           </div>
         </div>
 
@@ -643,8 +645,23 @@
   <div class="container">
     <div class="section-intro">
       <div class="section-label">The Architecture</div>
-      <h2>Four layers. One transferable object.</h2>
-      <p class="body-text">For engineers, advisors, and technically-minded evaluators — here's exactly how the handover model is built.</p>
+      <h2>The customer holds the records.<br/>The platform holds the registry.</h2>
+      <p class="body-text">For engineers, advisors, and technically-minded evaluators — here's exactly how the handover model is built, and what Build Register deliberately does <em>not</em> do.</p>
+    </div>
+
+    <div style="max-width: 820px; margin: 0 auto 56px; padding: 26px 32px; background: rgba(43,104,246,0.05); border: 1px solid rgba(43,104,246,0.22); border-radius: 18px;">
+      <div style="font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #93c5fd; margin-bottom: 10px;">Architectural Principle</div>
+      <p style="font-size: 1rem; color: rgba(255,255,255,0.86); line-height: 1.7; margin-bottom: 12px;">
+        Build Register is deliberately <strong>not</strong> the system of record for warranty data. Documents — warranty PDFs, test reports, as-built drawings, compliance certificates — live in the customer's own storage, governed by the customer's own policies. The platform provides three things, and only three things:
+      </p>
+      <ul style="list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px;">
+        <li style="display: flex; gap: 12px; color: rgba(255,255,255,0.82); font-size: 0.94rem; line-height: 1.6;"><span style="color:#67e8f9; font-weight:900;">1.</span><span><strong>On-chain identity.</strong> The Digital Property Asset Passport — an open-standard token that identifies each property and carries its registry of bound warranties.</span></li>
+        <li style="display: flex; gap: 12px; color: rgba(255,255,255,0.82); font-size: 0.94rem; line-height: 1.6;"><span style="color:#67e8f9; font-weight:900;">2.</span><span><strong>Atomic transfer.</strong> A single on-chain transaction moves the Passport and every bound reference to the new owner, with both-party cryptographic sign-off.</span></li>
+        <li style="display: flex; gap: 12px; color: rgba(255,255,255,0.82); font-size: 0.94rem; line-height: 1.6;"><span style="color:#67e8f9; font-weight:900;">3.</span><span><strong>Integrity proofs.</strong> At the moment each document is attached to a warranty, its hash is anchored on-chain. Anyone holding the document can independently verify it was not altered. The platform never needs access to the document to guarantee its integrity.</span></li>
+      </ul>
+      <p style="font-size: 0.94rem; color: var(--muted); line-height: 1.68; margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08);">
+        This is the opposite of a SaaS-hoarding-data posture. If Build Register shuts down tomorrow, customer records go nowhere — because we never held them. The on-chain registry and its proofs survive independently.
+      </p>
     </div>
 
     <div class="arch-split">
@@ -668,10 +685,10 @@
         <div class="arch-layer">
           <div class="arch-icon" style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.22)">📂</div>
           <div>
-            <h4>Layer 3 — IPFS Document Store</h4>
-            <p>Warranty PDFs, inspection reports, test certificates, as-built drawings. All content-addressed on IPFS. Each document's CID is stored on-chain in the WarrantyRegistry or DocumentRegistry contract. Verifiability survives indefinitely without relying on Build Register servers.</p>
+            <h4>Layer 3 — Document Anchoring &amp; Customer-Controlled Storage</h4>
+            <p>Documents are not held by the platform. They live where the customer's compliance and operational posture requires — developer DMS, contractor private repository, owner's preferred storage. When each document is attached to a warranty, a cryptographic hash is recorded on-chain in the DocumentRegistry contract. Any later retrieval is independently verifiable against that hash. The customer retains full control, full portability, and (critically) the right to delete. Public decentralised storage (IPFS / Filecoin) is an <em>optional</em> target, opt-in only, for the narrow case of statutory warranty certificates explicitly designed to be publicly retrievable and outlive the issuer — not a default for sensitive data.</p>
           </div>
-          <div class="arch-code">IPFS · CID</div>
+          <div class="arch-code">Hash on-chain</div>
         </div>
         <div class="arch-layer">
           <div class="arch-icon" style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2)">🪪</div>
@@ -738,15 +755,16 @@
           <rect x="310" y="260" width="90" height="34" rx="8" fill="rgba(0,212,255,0.1)" stroke="#00d4ff" stroke-width="1"/>
           <text x="355" y="281" text-anchor="middle" fill="#67e8f9" font-family="Inter, sans-serif" font-size="10" font-weight="700">Waterproofing</text>
 
-          <!-- links down to IPFS -->
+          <!-- links down to document anchoring -->
           <line x1="65" y1="294" x2="65" y2="340" stroke="#86efac" stroke-width="1" stroke-dasharray="2 2"/>
           <line x1="210" y1="294" x2="210" y2="340" stroke="#86efac" stroke-width="1" stroke-dasharray="2 2"/>
           <line x1="355" y1="294" x2="355" y2="340" stroke="#86efac" stroke-width="1" stroke-dasharray="2 2"/>
 
-          <!-- IPFS box -->
+          <!-- Document anchoring box -->
           <rect x="20" y="340" width="380" height="68" rx="12" fill="url(#gIPFS)" stroke="#22c55e" stroke-width="1.3"/>
-          <text x="210" y="366" text-anchor="middle" fill="#dcfce7" font-family="Inter, sans-serif" font-size="13" font-weight="700">IPFS Document Layer</text>
-          <text x="210" y="388" text-anchor="middle" fill="#86efac" font-family="SF Mono, monospace" font-size="10">CID: bafybeic... · Content-addressed · Durable</text>
+          <text x="210" y="362" text-anchor="middle" fill="#dcfce7" font-family="Inter, sans-serif" font-size="13" font-weight="700">Document Anchoring Layer</text>
+          <text x="210" y="381" text-anchor="middle" fill="#86efac" font-family="SF Mono, monospace" font-size="10">hash on-chain · bytes in customer storage</text>
+          <text x="210" y="398" text-anchor="middle" fill="#86efac" font-family="SF Mono, monospace" font-size="9.5">(DMS · private repo · S3 · on-prem)</text>
 
           <!-- Handover arrow -->
           <rect x="60" y="440" width="300" height="54" rx="12" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.3"/>
@@ -858,7 +876,19 @@
       <div class="edge-card info">
         <h4>🔗 Chain migration / platform durability</h4>
         <p class="edge-q">What if Build Register moves to a different chain? What if the chain itself deprecates?</p>
-        <p class="edge-a">The IPFS document layer is chain-agnostic and permanent. The on-chain registry state can be <strong>exported and re-issued on a new chain</strong> via a state-proof migration contract, with every bound account and warranty preserved. In the worst case (platform shutdown), every owner still controls their wallet, every document is still on IPFS, and verification still works against the last snapshot. The system degrades gracefully.</p>
+        <p class="edge-a">The on-chain registry state can be <strong>exported and re-issued on a new chain</strong> via a state-proof migration contract, with every Passport and bound warranty preserved. In the worst case (full platform shutdown), customer data goes nowhere — because the platform never held it. Every owner still controls their wallet, every document still lives in their own storage, and every integrity proof still resolves against the last on-chain snapshot. The system degrades gracefully because customer infrastructure is not a dependency on ours.</p>
+      </div>
+
+      <div class="edge-card info">
+        <h4>🗑️ GDPR / right to be forgotten</h4>
+        <p class="edge-q">How does an on-chain warranty registry comply with data subject erasure rights?</p>
+        <p class="edge-a">Because the customer controls document storage, <strong>deletion works exactly as their compliance framework requires</strong> — files can be removed from customer systems under GDPR, CCPA, UAE data protection law, or contractual obligations. What persists on-chain is the hash, which is cryptographically meaningless without the source document — a hash cannot be reversed into a PDF, a personal identifier, or any readable content. The warranty's existence and lifecycle events (issued, transferred, expired, claimed) remain auditable on-chain; the underlying evidence is deletable. This is why we never default documents to public content-addressed networks: erasure rights cease to be possible once content is pinned publicly.</p>
+      </div>
+
+      <div class="edge-card info">
+        <h4>🛡️ Why not store documents on public IPFS by default?</h4>
+        <p class="edge-q">Decentralised storage sounds like a natural fit. Why isn't it the default?</p>
+        <p class="edge-a">Because <strong>public content-addressed storage is the wrong posture for sensitive operational, financial, and personal data</strong>. Ciphertext on IPFS is public forever — any future compromise of the encryption retroactively exposes everything stored under that scheme. It conflicts directly with GDPR and similar erasure rights. Insurers and lenders generally will not underwrite against documents on public networks. Even encrypted, metadata (file size, timing, access patterns) leaks. Public IPFS is appropriate for the narrow case of documents <em>explicitly designed</em> to be publicly retrievable and to outlive their issuer — e.g., a statutory warranty certificate you want any future owner or regulator to be able to verify independently. For everything else, customer-controlled storage with on-chain hash anchoring provides the integrity guarantees without the exposure.</p>
       </div>
 
       <div class="edge-card">
@@ -887,7 +917,7 @@
             <th style="width:28%">Capability</th>
             <th>Status Quo<br/><span style="font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0;font-size:0.72rem">PDFs · email · file servers</span></th>
             <th>Hybrid Anchoring<br/><span style="font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0;font-size:0.72rem">Private DB + public checkpoints</span></th>
-            <th class="br">Build Register<br/><span style="font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0;font-size:0.72rem">On-chain assets · IPFS · ERC-6551</span></th>
+            <th class="br">Build Register<br/><span style="font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0;font-size:0.72rem">On-chain registry · Customer-held data · Hash anchoring</span></th>
           </tr>
         </thead>
         <tbody>
@@ -895,13 +925,19 @@
             <td>Files survive the handover</td>
             <td class="no">✗ Often lost</td>
             <td class="meh">~ If platform stays alive</td>
-            <td class="yes">✓ Always — on IPFS</td>
+            <td class="yes">✓ Customer-held + hash-anchored for integrity</td>
           </tr>
           <tr>
-            <td>New owner owns the record independently</td>
-            <td class="no">✗ Stored on others' systems</td>
-            <td class="no">✗ Platform is system of record</td>
-            <td class="yes">✓ Owner's wallet controls it</td>
+            <td>System of record</td>
+            <td class="no">✗ Scattered across issuers</td>
+            <td class="no">✗ Platform holds data</td>
+            <td class="yes">✓ Customer holds data; platform holds registry</td>
+          </tr>
+          <tr>
+            <td>Sensitive documents on public networks?</td>
+            <td class="yes">✓ No (private channels)</td>
+            <td class="yes">✓ No (private DB)</td>
+            <td class="yes">✓ No (customer storage; opt-in public for public certificates only)</td>
           </tr>
           <tr>
             <td>Atomic multi-warranty transfer</td>
@@ -913,7 +949,7 @@
             <td>Verifiable without trusting issuer</td>
             <td class="no">✗ Trust required</td>
             <td class="meh">~ Hash verifiable; content requires platform</td>
-            <td class="yes">✓ Content-addressed + on-chain</td>
+            <td class="yes">✓ Hash on-chain; content customer-held</td>
           </tr>
           <tr>
             <td>Independent third-party verification</td>
@@ -943,7 +979,7 @@
             <td>Portable across platforms</td>
             <td class="no">✗ Format-locked</td>
             <td class="no">✗ Platform-locked</td>
-            <td class="yes">✓ Open standards (ERC-721/6551/IPFS)</td>
+            <td class="yes">✓ Open standards (ERC-721/6551)</td>
           </tr>
           <tr>
             <td>Suitable for M&amp;A / portfolio transfer</td>
@@ -955,8 +991,8 @@
       </table>
     </div>
 
-    <p class="body-text" style="max-width:820px;margin:40px auto 0;text-align:center;font-size:0.94rem;">
-      The hybrid-anchoring model solves the <em>tamper-evidence</em> problem — it proves a record hasn't been altered. But it doesn't solve the <em>durability</em>, <em>portability</em>, or <em>independent ownership</em> problems that matter at handover. Those require on-chain assets, content-addressed documents, and user-owned wallets. That's the gap Build Register closes.
+    <p class="body-text" style="max-width:860px;margin:40px auto 0;text-align:center;font-size:0.94rem;">
+      The hybrid-anchoring model and legacy SaaS both treat the platform as the system of record. Build Register deliberately does not. What lives on-chain is the Passport, the transfer primitive, and the integrity proofs — not the data. The customer holds their own records by their own standards. What you gain in return is atomic transferability of warranty identity, independent verification of document integrity, and a registry that survives any of us shutting down — because the registry and the data were never in the same place to begin with.
     </p>
   </div>
 </section>

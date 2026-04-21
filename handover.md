@@ -12,7 +12,7 @@ Handover is the moment a building changes hands — and the moment its documenta
 
 ### TL;DR
 
-Every property we onboard is issued a **Digital Property Asset Passport** — a verifiable digital record that travels with the building. Every warranty issued against it is bound to its **Passport Vault** (built on the ERC-6551 standard). Every supporting document lives on **IPFS**, content-addressed. When the property changes hands, the Passport moves — and everything bound to it moves with it, atomically, with zero files lost and a permanent audit trail the new owner controls.
+Every property we onboard is issued a **Digital Property Asset Passport** — a verifiable on-chain identity that travels with the building. Warranties and document references are bound to its **Passport Vault** (built on the ERC-6551 standard). The documents themselves live in **the customer's chosen storage** (DMS, private repository, on-prem, S3 — whatever their compliance posture requires), with cryptographic hashes anchored on-chain for independent integrity verification. When the property changes hands, the Passport and its references move in a single atomic transfer — the new owner inherits a complete, verifiable chain of custody without the platform ever holding the underlying data.
 
 ---
 
@@ -47,9 +47,9 @@ No wallet setup. No gas fees. No blockchain knowledge required. The mechanics ha
 
 1. **You create an account at Build Register.** Email and password. Behind the scenes, a smart wallet is provisioned for you using account abstraction (ERC-4337). You never see a seed phrase. You never pay gas. As far as you're concerned, it's a normal web app.
 2. **The seller (or their agent) initiates the handover.** From their Build Register dashboard, the seller selects the property and enters your verified buyer identity. The platform generates a Handover Package containing the Property Passport and every warranty, document, claim history, and certificate bound to it.
-3. **You review the Handover Package before accepting.** You can see exactly what's being transferred: 14 warranties, 38 documents, 3 open claims, 2 expired warranties marked for historical record. You can verify each one independently — on-chain IDs, IPFS document hashes, issue dates, responsible parties. Nothing is hidden.
+3. **You review the Handover Package before accepting.** You can see exactly what's being transferred: 14 warranties, 38 document references, 3 open claims, 2 expired warranties marked for historical record. Each is independently verifiable — on-chain IDs, anchored document hashes, issue dates, responsible parties. Documents are pulled from the seller's systems or the issuing contractor's — wherever the customer's storage policy puts them — and their integrity is checked against the on-chain hashes before you accept. Nothing is hidden.
 4. **Both parties sign; the transfer executes atomically.** On acceptance, the Property Passport transfers to your wallet. The Passport Vault beneath it — which owns every warranty, document reference, and claim record — moves with it automatically. One transaction. One event log. Completion is irreversible and the audit trail is permanent.
-5. **Everything is yours — and it stays yours even if Build Register disappears.** You now control the wallet that owns the property's full warranty history. You can verify coverage, file claims, transfer to a future buyer, or delegate view access to your insurer, property manager, or bank. The data lives on-chain and on IPFS. Our servers being up is not a precondition for your records being valid.
+5. **Everything is yours — and it stays yours even if Build Register disappears.** You now control the on-chain identity for the property and its warranty registry. Coverage verifications, claims, future transfers, and delegated viewer access to insurers, property managers, or banks all flow through your wallet. The warranty records themselves live in your chosen storage — you inherit the seller's handover package into your own systems, so nothing depends on Build Register's servers staying up. The registry is on-chain; the data is yours.
 
 ---
 
@@ -65,7 +65,7 @@ For the party issuing the warranties, handover is where reputational risk compou
 
 1. **You register the Property Passport at project registration.** Before the first warranty is even issued, the property is registered as a Property Passport under your wallet with metadata: address, lot, plot, legal description, project reference. Everything that follows attaches to this Passport.
 2. **Every vendor issues warranties directly against the Property Passport.** Structural engineer issues the structural warranty. Waterproofing contractor issues the waterproofing certificate. HVAC vendor issues HVAC coverage. Each warranty is an on-chain record whose "owner" is the property's Passport Vault — not your company, not the eventual buyer. It belongs to the building.
-3. **Supporting documents are pinned to IPFS at issuance.** PDFs, test reports, as-built drawings, compliance certificates. All content-addressed on IPFS, with the CID stored on-chain against the relevant warranty. The document itself is verifiable by anyone, forever, without relying on your servers, our servers, or any company staying alive.
+3. **Supporting documents are anchored at issuance.** PDFs, test reports, as-built drawings, compliance certificates. The documents themselves live in your organisation's chosen storage — DMS, private repository, on-prem file server, S3, whatever your compliance posture requires. At the moment each is attached to a warranty, its cryptographic hash is written on-chain in the DocumentRegistry contract. Integrity is independently verifiable forever; the document itself stays under your control and off public networks.
 4. **At handover, you execute one transfer to the new owner.** When the building is handed over at practical completion, you transfer the Property Passport to the first owner's wallet. The bound account transfers with it. Every warranty, every document, every compliance reference moves in a single transaction. You hand over a *verifiably complete* record.
 5. **You keep a permanent record of what you delivered.** Your wallet keeps a verifiable history of every property you handed over — which warranties were attached, which documents, who accepted the handover, when. This becomes reputational capital: future buyers and insurers can verify the quality of your handovers at a glance, with no trust required.
 
@@ -129,9 +129,19 @@ Not every handover is a transfer of ownership. Regulators inspecting compliance,
 
 ## The Architecture
 
-**Four layers. One transferable object.**
+**The customer holds the records. The platform holds the registry.**
 
-For engineers, advisors, and technically-minded evaluators — here's exactly how the handover model is built.
+For engineers, advisors, and technically-minded evaluators — here's exactly how the handover model is built, and what Build Register deliberately does *not* do.
+
+### Architectural Principle
+
+Build Register is deliberately **not** the system of record for warranty data. Documents — warranty PDFs, test reports, as-built drawings, compliance certificates — live in the customer's own storage, governed by the customer's own policies. The platform provides three things, and only three things:
+
+1. **On-chain identity.** The Digital Property Asset Passport — an open-standard token that identifies each property and carries its registry of bound warranties.
+2. **Atomic transfer.** A single on-chain transaction moves the Passport and every bound reference to the new owner, with both-party cryptographic sign-off.
+3. **Integrity proofs.** At the moment each document is attached to a warranty, its hash is anchored on-chain. Anyone holding the document can independently verify it was not altered. The platform never needs access to the document to guarantee its integrity.
+
+This is the opposite of a SaaS-hoarding-data posture. If Build Register shuts down tomorrow, customer records go nowhere — because we never held them. The on-chain registry and its proofs survive independently.
 
 ### Layer 1 — Property Passport (ERC-721)
 
@@ -141,9 +151,9 @@ Each property is issued a verifiable digital asset built on the ERC-721 open sta
 
 A smart contract account (ERC-6551) is deterministically deployed under each Property Passport. The Vault is the legal "owner" of every warranty, document reference, and claim record associated with the property. The Passport carries the identity; the Vault carries the history. Together, they move as one.
 
-### Layer 3 — IPFS Document Store
+### Layer 3 — Document Anchoring & Customer-Controlled Storage
 
-Warranty PDFs, inspection reports, test certificates, as-built drawings. All content-addressed on IPFS. Each document's CID is stored on-chain in the WarrantyRegistry or DocumentRegistry contract. Verifiability survives indefinitely without relying on Build Register servers.
+Documents are not held by the platform. They live where the customer's compliance and operational posture requires — developer DMS, contractor private repository, owner's preferred storage. When each document is attached to a warranty, a cryptographic hash is recorded on-chain in the DocumentRegistry contract. Any later retrieval is independently verifiable against that hash. The customer retains full control, full portability, and (critically) the right to delete. Public decentralised storage (IPFS / Filecoin) is an *optional* target, opt-in only, for the narrow case of statutory warranty certificates explicitly designed to be publicly retrievable and outlive the issuer — not a default for sensitive data.
 
 ### Layer 4 — Account Abstraction (ERC-4337)
 
@@ -250,7 +260,19 @@ The on-chain record is jurisdiction-neutral, but warranty *enforceability* isn't
 
 *What if Build Register moves to a different chain? What if the chain itself deprecates?*
 
-The IPFS document layer is chain-agnostic and permanent. The on-chain registry state can be **exported and re-issued on a new chain** via a state-proof migration contract, with every bound account and warranty preserved. In the worst case (platform shutdown), every owner still controls their wallet, every document is still on IPFS, and verification still works against the last snapshot. The system degrades gracefully.
+The on-chain registry state can be **exported and re-issued on a new chain** via a state-proof migration contract, with every Passport and bound warranty preserved. In the worst case (full platform shutdown), customer data goes nowhere — because the platform never held it. Every owner still controls their wallet, every document still lives in their own storage, and every integrity proof still resolves against the last on-chain snapshot. The system degrades gracefully because customer infrastructure is not a dependency on ours.
+
+### GDPR / right to be forgotten
+
+*How does an on-chain warranty registry comply with data subject erasure rights?*
+
+Because the customer controls document storage, **deletion works exactly as their compliance framework requires** — files can be removed from customer systems under GDPR, CCPA, UAE data protection law, or contractual obligations. What persists on-chain is the hash, which is cryptographically meaningless without the source document — a hash cannot be reversed into a PDF, a personal identifier, or any readable content. The warranty's existence and lifecycle events (issued, transferred, expired, claimed) remain auditable on-chain; the underlying evidence is deletable. This is why we never default documents to public content-addressed networks: erasure rights cease to be possible once content is pinned publicly.
+
+### Why not store documents on public IPFS by default?
+
+*Decentralised storage sounds like a natural fit. Why isn't it the default?*
+
+Because **public content-addressed storage is the wrong posture for sensitive operational, financial, and personal data**. Ciphertext on IPFS is public forever — any future compromise of the encryption retroactively exposes everything stored under that scheme. It conflicts directly with GDPR and similar erasure rights. Insurers and lenders generally will not underwrite against documents on public networks. Even encrypted, metadata (file size, timing, access patterns) leaks. Public IPFS is appropriate for the narrow case of documents *explicitly designed* to be publicly retrievable and to outlive their issuer — e.g., a statutory warranty certificate you want any future owner or regulator to be able to verify independently. For everything else, customer-controlled storage with on-chain hash anchoring provides the integrity guarantees without the exposure.
 
 ### Refused handover (buyer won't sign)
 
@@ -264,20 +286,21 @@ The transfer simply doesn't execute — the property stays with the seller. This
 
 The two dominant alternatives are the legacy status quo (files + PDFs) and the hybrid-anchoring model (private database, public checkpoint). Here's how each one handles the real handover problem.
 
-| Capability | Status Quo (PDFs · email · file servers) | Hybrid Anchoring (Private DB + checkpoints) | Build Register (On-chain · IPFS · ERC-6551) |
+| Capability | Status Quo (PDFs · email · file servers) | Hybrid Anchoring (Private DB + checkpoints) | Build Register (On-chain registry · Customer-held data · Hash anchoring) |
 |---|---|---|---|
-| Files survive the handover | ✗ Often lost | ~ If platform stays alive | ✓ Always — on IPFS |
-| New owner owns the record independently | ✗ Stored on others' systems | ✗ Platform is system of record | ✓ Owner's wallet controls it |
+| Files survive the handover | ✗ Often lost | ~ If platform stays alive | ✓ Customer-held + hash-anchored for integrity |
+| System of record | ✗ Scattered across issuers | ✗ Platform holds data | ✓ Customer holds data; platform holds registry |
+| Sensitive documents on public networks? | ✓ No (private channels) | ✓ No (private DB) | ✓ No (customer storage; opt-in public for public certificates only) |
 | Atomic multi-warranty transfer | ✗ Manual per-file | ~ Platform-orchestrated | ✓ One Passport transfer, everything moves |
-| Verifiable without trusting issuer | ✗ Trust required | ~ Hash verifiable; content needs platform | ✓ Content-addressed + on-chain |
+| Verifiable without trusting issuer | ✗ Trust required | ~ Hash verifiable; content needs platform | ✓ Hash on-chain; content customer-held |
 | Independent third-party verification | ✗ Requires issuer cooperation | ~ Requires platform API | ✓ Direct on-chain read |
 | Survives issuer/platform shutdown | ✗ Usually fatal | ✗ Platform dependency | ✓ Records and access persist |
 | Works for non-crypto users | ✓ Familiar | ✓ Web2 UX | ✓ Web2 UX via account abstraction |
 | Programmable lifecycle (expiry, claims, escrow) | ✗ Manual | ~ Platform logic | ✓ Enforced by smart contract |
-| Portable across platforms | ✗ Format-locked | ✗ Platform-locked | ✓ Open standards (ERC-721/6551/IPFS) |
+| Portable across platforms | ✗ Format-locked | ✗ Platform-locked | ✓ Open standards (ERC-721/6551) |
 | Suitable for M&A / portfolio transfer | ✗ DD nightmare | ~ API-dependent | ✓ Batch Passport transfer |
 
-The hybrid-anchoring model solves the *tamper-evidence* problem — it proves a record hasn't been altered. But it doesn't solve the *durability*, *portability*, or *independent ownership* problems that matter at handover. Those require on-chain assets, content-addressed documents, and user-owned wallets. That's the gap Build Register closes.
+The hybrid-anchoring model and legacy SaaS both treat the platform as the system of record. Build Register deliberately does not. What lives on-chain is the Passport, the transfer primitive, and the integrity proofs — not the data. The customer holds their own records by their own standards. What you gain in return is atomic transferability of warranty identity, independent verification of document integrity, and a registry that survives any of us shutting down — because the registry and the data were never in the same place to begin with.
 
 ---
 
