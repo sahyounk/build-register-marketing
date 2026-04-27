@@ -365,7 +365,7 @@
         <a href="#team">Team</a>
       </div>
       <div class="nav-ctas">
-        <a class="btn-ghost" href="https://app.build-register.com" target="_blank">Live Demo</a>
+        <a class="btn-ghost" href="https://app.build-register.com" target="_blank" rel="noopener noreferrer">Live Demo</a>
         <a class="btn-nav" href="mailto:info@build-register.com">Get in Touch</a>
       </div>
     </div>
@@ -733,7 +733,7 @@
     <h2>See it. Build it. Back it.</h2>
     <p class="body-text">The dashboard is live. The contracts are deployed. You can connect a wallet and write to the chain right now.</p>
     <div class="final-btns">
-      <a class="btn-cta-primary" href="https://app.build-register.com" target="_blank">View Live Demo →</a>
+      <a class="btn-cta-primary" href="https://app.build-register.com" target="_blank" rel="noopener noreferrer">View Live Demo →</a>
       <a class="btn-cta-secondary" href="mailto:info@build-register.com">Contact the Founder →</a>
     </div>
   </div>
@@ -761,90 +761,14 @@
         Build Register © 2026 · Construction Warranty Registry
       </div>
       <div class="footer-links">
-        <a href="https://app.build-register.com" target="_blank">Dashboard</a>
-        <a href="https://github.com/sahyounk/build-register.site" target="_blank">GitHub</a>
+        <a href="https://app.build-register.com" target="_blank" rel="noopener noreferrer">Dashboard</a>
+        <a href="https://github.com/sahyounk/build-register-marketing" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="mailto:info@build-register.com">Contact</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script>
-// ── PERSONA CONTENT ──
-const personas = {
-  investor: {
-    headline: 'The trust infrastructure for<br/><span class="gradient-text-purple">construction.</span>',
-    sub: 'Pre-seed stage. Smart contracts deployed. MVP live. $13T market with zero dominant platform. Seeking co-investors and the right co-founders to build the category.',
-    cta1: { text: 'View Traction →', href: '#traction', target: null },
-    cta2: { text: 'Talk to the Founder →', href: 'mailto:info@build-register.com' }
-  },
-  builder: {
-    headline: 'Help build the trust layer for<br/><span class="gradient-text">construction.</span>',
-    sub: '7 Solidity contracts live on Nexus Testnet. React + Vite + ethers.js dashboard deployed. We need a technical co-founder who wants to own the architecture and build the category.',
-    cta1: { text: 'View the Tech Stack →', href: '#traction', target: null },
-    cta2: { text: 'Join the Team →', href: '#team' }
-  },
-  client: {
-    headline: 'One registry for all your<br/><span class="gradient-text-cyan">construction warranties.</span>',
-    sub: 'Replace scattered PDFs with on-chain warranty records. Track claims, verify coverage, and build trust with property owners, operators, and insurers — from handover through the full lifecycle.',
-    cta1: { text: 'Try the Live Dashboard →', href: 'https://app.build-register.com', target: '_blank' },
-    cta2: { text: 'Request a Demo →', href: 'mailto:info@build-register.com' }
-  }
-};
-
-const headline = document.getElementById('hero-headline');
-const sub      = document.getElementById('hero-sub');
-const ctasEl   = document.getElementById('hero-ctas');
-const cta1     = document.getElementById('hero-cta1');
-const cta2     = document.getElementById('hero-cta2');
-const btns     = document.querySelectorAll('.persona-btn');
-
-function switchPersona(key) {
-  const p = personas[key];
-  const els = [headline, sub, ctasEl];
-
-  els.forEach(el => el.classList.add('out'));
-
-  setTimeout(() => {
-    headline.innerHTML  = p.headline;
-    sub.textContent     = p.sub;
-    cta1.textContent    = p.cta1.text;
-    cta1.href           = p.cta1.href;
-    if (p.cta1.target)  cta1.setAttribute('target', p.cta1.target);
-    else                cta1.removeAttribute('target');
-    cta2.textContent    = p.cta2.text;
-    cta2.href           = p.cta2.href;
-
-    els.forEach(el => el.classList.remove('out'));
-    btns.forEach(b => b.classList.toggle('active', b.dataset.persona === key));
-  }, 290);
-}
-
-btns.forEach(btn => btn.addEventListener('click', () => switchPersona(btn.dataset.persona)));
-
-// ── COUNTER ANIMATION ──
-function animCount(el, target) {
-  let n = 0;
-  const step = Math.max(1, Math.ceil(target / 22));
-  const t = setInterval(() => {
-    n = Math.min(n + step, target);
-    el.textContent = n;
-    if (n >= target) clearInterval(t);
-  }, 48);
-}
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.querySelectorAll('.stat-number').forEach(el => {
-        const v = parseInt(el.textContent);
-        if (!isNaN(v)) animCount(el, v);
-      });
-      obs.disconnect();
-    }
-  });
-}, { threshold: 0.6 });
-const statsBar = document.querySelector('.chain-stats');
-if (statsBar) obs.observe(statsBar);
-</script>
+<script src="/personas.js" defer></script>
 </body>
 </html>
