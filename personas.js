@@ -6,40 +6,78 @@
 // need innerHTML on user-derived data (defense in depth: even though the data
 // here is hardcoded, the pattern means future edits cannot accidentally
 // reintroduce an XSS sink).
+//
+// Persona model (v2 — GTM blueprint April 2026):
+//   developer   — Real Estate Developer (CEO / COO / Director of Ops)
+//   contractor  — Main Contractor / Construction Company (CEO, PM, Project Director)
+//   fm          — Facilities Manager / FM Operator
+//   pm          — Property Manager / Maintenance Management Company
+//   investor    — Pre-seed / seed investor
+//   cofounder   — Technical co-founder
 
 (function () {
   'use strict';
 
   const PERSONAS = {
+    developer: {
+      headline: [
+        { text: 'Handover the building.' },
+        { tag: 'br' },
+        { tag: 'span', cls: 'gradient-text-purple', text: 'Defend it for ten years.' }
+      ],
+      sub: 'Most jurisdictions keep you liable for a decade or more after handover. Build Register turns every project into a property asset passport you control — every snag, every photo, every sign-off anchored on-chain — so when the dispute, the audit, or the portfolio sale comes five years from now, the record is intact and instantly verifiable.',
+      cta1: { text: 'Book a Handover Audit →', href: 'mailto:info@build-register.com?subject=Handover%20Audit%20%E2%80%94%20Developer', target: null },
+      cta2: { text: 'See the architecture →', href: '#handover' }
+    },
+    contractor: {
+      headline: [
+        { text: 'Walk away with retention.' },
+        { tag: 'br' },
+        { tag: 'span', cls: 'gradient-text', text: 'Not residual risk.' }
+      ],
+      sub: '"I never got that snag." "Where\'s the photo?" "The vendor\'s number changed." Retention battles and assignment fights all turn on paperwork nobody can find. Handover an on-chain record where every snag has a photo, a vendor, and a sign-off — get retention released faster, defend assignments years later, win the next bid because your handover packs are demonstrably better.',
+      cta1: { text: 'Get the Handover Pack Comparison →', href: 'mailto:info@build-register.com?subject=Handover%20Pack%20Comparison%20%E2%80%94%20Contractor', target: null },
+      cta2: { text: 'Try the live dashboard →', href: 'https://app.build-register.com', target: '_blank' }
+    },
+    fm: {
+      headline: [
+        { text: 'Stop paying out-of-pocket' },
+        { tag: 'br' },
+        { tag: 'span', cls: 'gradient-text-cyan', text: 'for things that were warranted.' }
+      ],
+      sub: 'Reactive jobs are won or lost on whether you can prove coverage. Walk into every breakdown with verified warranty status, the original snag history, the vendor obligation chain, and the handover photos — all in one click. Hand the record back to the owner in minutes when the contract ends.',
+      cta1: { text: 'Run a Coverage Recovery Pilot →', href: 'mailto:info@build-register.com?subject=Coverage%20Recovery%20Pilot%20%E2%80%94%20FM', target: null },
+      cta2: { text: 'Try the live dashboard →', href: 'https://app.build-register.com', target: '_blank' }
+    },
+    pm: {
+      headline: [
+        { text: 'Renew the mandate.' },
+        { tag: 'br' },
+        { tag: 'span', cls: 'gradient-text-cyan', text: 'Or hand it over in minutes.' }
+      ],
+      sub: 'Owner audits, contract renewals, end-of-mandate transitions: the moments your reputation is decided. Build Register gives you a verifiable record of every promise kept — and a single-transaction handover when the mandate ends, with zero email war.',
+      cta1: { text: 'See the Mandate-Transition Demo →', href: 'mailto:info@build-register.com?subject=Mandate%20Transition%20Demo%20%E2%80%94%20PM', target: null },
+      cta2: { text: 'See the wedge →', href: '#trust' }
+    },
     investor: {
       headline: [
-        { text: 'The trust infrastructure for' },
+        { text: 'The non-custodial wedge in a' },
         { tag: 'br' },
-        { tag: 'span', cls: 'gradient-text-purple', text: 'construction.' }
+        { tag: 'span', cls: 'gradient-text-purple', text: '$13T custodial industry.' }
       ],
-      sub: 'Pre-seed stage. Smart contracts deployed. MVP live. $13T market with zero dominant platform. Seeking co-investors and the right co-founders to build the category.',
+      sub: 'Pre-seed. Smart contracts deployed. MVP live and writing on-chain today. The only construction-record system where the customer holds the records and we hold nothing — and where a 25-year warranty file transfers in minutes when the keys change hands.',
       cta1: { text: 'View Traction →', href: '#traction', target: null },
-      cta2: { text: 'Talk to the Founder →', href: 'mailto:info@build-register.com' }
+      cta2: { text: 'Talk to the Founder →', href: 'mailto:info@build-register.com?subject=Investor%20Intro' }
     },
-    builder: {
+    cofounder: {
       headline: [
-        { text: 'Help build the trust layer for' },
+        { text: 'The contracts are deployed.' },
         { tag: 'br' },
-        { tag: 'span', cls: 'gradient-text', text: 'construction.' }
+        { tag: 'span', cls: 'gradient-text', text: 'Build the category with me.' }
       ],
-      sub: '7 Solidity contracts live on Nexus Testnet. React + Vite + ethers.js dashboard deployed. We need a technical co-founder who wants to own the architecture and build the category.',
-      cta1: { text: 'View the Tech Stack →', href: '#traction', target: null },
-      cta2: { text: 'Join the Team →', href: '#team' }
-    },
-    client: {
-      headline: [
-        { text: 'One registry for all your' },
-        { tag: 'br' },
-        { tag: 'span', cls: 'gradient-text-cyan', text: 'construction warranties.' }
-      ],
-      sub: 'Replace scattered PDFs with on-chain warranty records. Track claims, verify coverage, and build trust with property owners, operators, and insurers — from handover through the full lifecycle.',
-      cta1: { text: 'Try the Live Dashboard →', href: 'https://app.build-register.com', target: '_blank' },
-      cta2: { text: 'Request a Demo →', href: 'mailto:info@build-register.com' }
+      sub: '7 Solidity contracts live on Nexus Testnet. React + Vite + ethers.js dashboard deployed. The wedge is non-custodial property records — defensible by architecture, not feature list. Looking for a technical co-founder who wants to own the codebase.',
+      cta1: { text: 'See the Tech Stack →', href: '#traction', target: null },
+      cta2: { text: 'Apply (Loom + GitHub) →', href: 'mailto:info@build-register.com?subject=Cofounder%20Application' }
     }
   };
 
@@ -93,6 +131,13 @@
 
         cta2.textContent = p.cta2.text;
         cta2.href = p.cta2.href;
+        if (p.cta2.target) {
+          cta2.setAttribute('target', p.cta2.target);
+          cta2.setAttribute('rel', 'noopener noreferrer');
+        } else {
+          cta2.removeAttribute('target');
+          cta2.removeAttribute('rel');
+        }
 
         els.forEach(el => el.classList.remove('out'));
         btns.forEach(b => b.classList.toggle('active', b.dataset.persona === key));

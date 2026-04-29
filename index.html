@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build Register — Trust Infrastructure for Construction</title>
-  <meta name="description" content="On-chain warranty registry for construction. Smart contracts deployed. Dashboard live. Seeking co-founders and seed investment." />
+  <title>Build Register — A property asset passport you control.</title>
+  <meta name="description" content="The non-custodial property asset passport. Custodian-held records, atomic handover in minutes, immutable warranty register. Built for developers, contractors, FM operators, and property managers." />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -102,9 +102,12 @@
       transition: all 0.22s ease; display: flex; align-items: center; gap: 6px;
     }
     .persona-btn:hover { border-color: rgba(255,255,255,0.22); color: white; }
-    .persona-btn.active[data-persona="investor"] { color: #d8b4fe; border-color: rgba(168,85,247,0.5); background: rgba(168,85,247,0.12); box-shadow: 0 0 14px rgba(168,85,247,0.18); }
-    .persona-btn.active[data-persona="builder"]  { color: #93c5fd; border-color: rgba(43,104,246,0.5);  background: rgba(43,104,246,0.12);  box-shadow: 0 0 14px rgba(43,104,246,0.18); }
-    .persona-btn.active[data-persona="client"]   { color: #67e8f9; border-color: rgba(0,212,255,0.5);   background: rgba(0,212,255,0.1);    box-shadow: 0 0 14px rgba(0,212,255,0.18); }
+    .persona-btn.active[data-persona="developer"]  { color: #d8b4fe; border-color: rgba(168,85,247,0.5); background: rgba(168,85,247,0.12); box-shadow: 0 0 14px rgba(168,85,247,0.18); }
+    .persona-btn.active[data-persona="contractor"] { color: #93c5fd; border-color: rgba(43,104,246,0.5); background: rgba(43,104,246,0.12); box-shadow: 0 0 14px rgba(43,104,246,0.18); }
+    .persona-btn.active[data-persona="fm"]         { color: #67e8f9; border-color: rgba(0,212,255,0.5);  background: rgba(0,212,255,0.1);   box-shadow: 0 0 14px rgba(0,212,255,0.18); }
+    .persona-btn.active[data-persona="pm"]         { color: #5eead4; border-color: rgba(20,184,166,0.5); background: rgba(20,184,166,0.12); box-shadow: 0 0 14px rgba(20,184,166,0.18); }
+    .persona-btn.active[data-persona="investor"]   { color: #fcd34d; border-color: rgba(245,158,11,0.5); background: rgba(245,158,11,0.12); box-shadow: 0 0 14px rgba(245,158,11,0.18); }
+    .persona-btn.active[data-persona="cofounder"]  { color: #86efac; border-color: rgba(34,197,94,0.5);  background: rgba(34,197,94,0.12);  box-shadow: 0 0 14px rgba(34,197,94,0.18); }
 
     /* ── HERO ── */
     .hero {
@@ -161,8 +164,87 @@
     .split { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
     .section-intro { text-align: center; max-width: 680px; margin: 0 auto 56px; }
 
+    /* ── TRUST BAND (non-custodial wedge) ── */
+    .trustband {
+      padding: 56px 0; background: var(--bg);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .trustband::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 40% 80% at 0% 50%, rgba(168,85,247,0.10), transparent),
+                  radial-gradient(ellipse 40% 80% at 100% 50%, rgba(0,212,255,0.06), transparent);
+      pointer-events: none;
+    }
+    .tb-inner { position: relative; }
+    .tb-eyebrow {
+      text-align: center; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #d8b4fe; margin-bottom: 18px;
+    }
+    .tb-headline {
+      text-align: center; font-size: clamp(1.4rem, 2.6vw, 1.95rem);
+      font-weight: 800; letter-spacing: -0.02em; line-height: 1.25;
+      max-width: 820px; margin: 0 auto 36px;
+    }
+    .tb-headline em { font-style: normal; color: #d8b4fe; }
+    .tb-claims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .tb-claim {
+      padding: 22px 24px; background: var(--card); border: 1px solid rgba(168,85,247,0.22);
+      border-radius: 14px;
+    }
+    .tb-claim-num {
+      display: inline-block; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #c084fc; margin-bottom: 8px;
+    }
+    .tb-claim h3 { font-size: 1.04rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .tb-claim p  { font-size: 0.86rem; color: var(--muted); line-height: 1.6; }
+    @media(max-width:920px){ .tb-claims { grid-template-columns: 1fr; } }
+
+    /* ── STRESS BAND (visceral, calmly stated) ── */
+    .stress-band {
+      padding: 80px 0; background: var(--bg);
+      border-top: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    .stress-band::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(239,68,68,0.07), transparent);
+      pointer-events: none;
+    }
+    .stress-inner {
+      position: relative; max-width: 760px; margin: 0 auto; text-align: center;
+    }
+    .stress-eyebrow {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #fca5a5; margin-bottom: 18px;
+    }
+    .stress-headline {
+      font-size: clamp(1.5rem, 3vw, 2.05rem); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 22px;
+    }
+    .stress-body {
+      font-size: 1.05rem; color: rgba(255,255,255,0.78); line-height: 1.75;
+      margin-bottom: 18px;
+    }
+    .stress-tag {
+      font-size: 0.92rem; color: var(--muted); font-style: italic;
+    }
+
     /* ── PROBLEM ── */
     .problem { padding: 96px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .liability-strip {
+      margin-top: 22px; padding: 14px 16px;
+      background: rgba(0,212,255,0.06);
+      border-left: 3px solid var(--cyan);
+      border-radius: 8px;
+      font-size: 0.84rem; color: rgba(255,255,255,0.78);
+      line-height: 1.65;
+    }
+    .liability-strip strong { color: var(--cyan); font-weight: 600; }
+    .liability-strip-label {
+      display: block; font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase; color: #67e8f9;
+      margin-bottom: 6px;
+    }
     .big-num {
       font-size: clamp(5rem, 11vw, 9rem); font-weight: 900; letter-spacing: -0.06em; line-height: 1;
       background: linear-gradient(135deg, white 0%, rgba(255,255,255,0.3) 100%);
@@ -205,7 +287,7 @@
 
     /* ── HOW IT WORKS ── */
     .how { padding: 96px 0; }
-    .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
+    .steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; position: relative; }
     .steps::after { content:''; position:absolute; top:30px; left:12%; right:12%; height:1px; background:linear-gradient(90deg,transparent,var(--border) 20%,rgba(43,104,246,0.4) 50%,var(--border) 80%,transparent); }
     .step { text-align: center; padding: 0 12px; position: relative; z-index: 1; }
     .step-num { width:58px; height:58px; border-radius:50%; background:var(--bg2); border:2px solid var(--border); display:grid; place-items:center; margin:0 auto 16px; font-size:1.35rem; transition:0.2s; }
@@ -357,11 +439,11 @@
         </div>
       </div>
       <div class="nav-links">
+        <a href="#trust">The Wedge</a>
         <a href="#problem">Problem</a>
-        <a href="#solution">Solution</a>
         <a href="#handover">Handover</a>
+        <a href="#solution">Solution</a>
         <a href="#traction">Traction</a>
-        <a href="#market">Market</a>
         <a href="#team">Team</a>
       </div>
       <div class="nav-ctas">
@@ -376,11 +458,14 @@
 <div class="persona-bar">
   <div class="container">
     <div class="persona-inner">
-      <span class="persona-label">I'm a:</span>
+      <span class="persona-label">Show me Build Register for:</span>
       <div class="persona-btns">
-        <button class="persona-btn active" data-persona="investor">💰 Investor</button>
-        <button class="persona-btn" data-persona="builder">🛠️ Co-founder</button>
-        <button class="persona-btn" data-persona="client">🏗️ Construction Pro</button>
+        <button class="persona-btn active" data-persona="developer">🏗️ Developers</button>
+        <button class="persona-btn" data-persona="contractor">🧰 Main Contractors</button>
+        <button class="persona-btn" data-persona="fm">🏢 Facilities Managers</button>
+        <button class="persona-btn" data-persona="pm">🔑 Property Managers</button>
+        <button class="persona-btn" data-persona="investor">💰 Investors</button>
+        <button class="persona-btn" data-persona="cofounder">🛠️ Co-founders</button>
       </div>
     </div>
   </div>
@@ -392,17 +477,17 @@
     <div class="hero-inner">
       <div class="live-badge">
         <div class="pulse"></div>
-        Live on Nexus Testnet · Apex Fusion
+        A property asset passport you control · Live on Nexus Testnet
       </div>
       <h1 class="pfade" id="hero-headline">
-        The trust infrastructure for<br/><span class="gradient-text-purple">construction.</span>
+        Handover the building.<br/><span class="gradient-text-purple">Defend it for ten years.</span>
       </h1>
       <p class="hero-sub pfade" id="hero-sub">
-        Pre-seed stage. Smart contracts deployed. MVP live. $13T market with zero dominant platform. Seeking co-investors and the right co-founders to build the category.
+        Most jurisdictions keep you liable for a decade or more after handover. Build Register gives every project a property asset passport you control — every snag, every photo, every sign-off anchored on-chain — so when the dispute, the audit, or the portfolio sale comes five years from now, the record is intact and instantly verifiable.
       </p>
       <div class="hero-ctas pfade" id="hero-ctas">
-        <a class="btn-cta-primary" id="hero-cta1" href="#traction">View Traction →</a>
-        <a class="btn-cta-secondary" id="hero-cta2" href="mailto:info@build-register.com">Talk to the Founder →</a>
+        <a class="btn-cta-primary" id="hero-cta1" href="mailto:info@build-register.com?subject=Handover%20Audit%20%E2%80%94%20Developer">Book a Handover Audit →</a>
+        <a class="btn-cta-secondary" id="hero-cta2" href="#handover">See the architecture →</a>
       </div>
       <div class="chain-stats">
         <div class="stat-box">
@@ -430,6 +515,49 @@
   </div>
 </section>
 
+<!-- ══ TRUST BAND (non-custodial wedge) ══ -->
+<section class="trustband" id="trust">
+  <div class="container">
+    <div class="tb-inner">
+      <div class="tb-eyebrow">The wedge — three things every other system gets wrong</div>
+      <h2 class="tb-headline">
+        The custodian holds the records. The handover is atomic. <em>We hold nothing.</em>
+      </h2>
+      <div class="tb-claims">
+        <div class="tb-claim">
+          <span class="tb-claim-num">01 · Custody stays with you</span>
+          <h3>Your storage. Your files. Always.</h3>
+          <p>Documents live in your existing storage — SharePoint, Drive, S3, on-prem. We anchor cryptographic proofs on-chain. We never see, hold, or have the right to release the files themselves.</p>
+        </div>
+        <div class="tb-claim">
+          <span class="tb-claim-num">02 · Handover is atomic</span>
+          <h3>Twenty-five years of records. One transaction.</h3>
+          <p>When the keys change hands, the property asset passport moves with them — every warranty, document, and claim record, intact, in a single on-chain transfer. Minutes, not the usual six-to-eighteen-month paperwork drag.</p>
+        </div>
+        <div class="tb-claim">
+          <span class="tb-claim-num">03 · No platform lock-in</span>
+          <h3>If we disappear, your data does not.</h3>
+          <p>Because we never custody what matters, you can walk away with every record, transferable to any custodian — on or off Build Register. The promise is written into the contract, not into our retention policy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STRESS BAND (the 11pm version of you) ══ -->
+<section class="stress-band" id="stress">
+  <div class="container">
+    <div class="stress-inner">
+      <div class="stress-eyebrow">Why this matters</div>
+      <h2 class="stress-headline">Built for the 11pm version of you.</h2>
+      <p class="stress-body">
+        The version that started on site at 7am, sat through a dispute meeting at 2pm, took a regulator call at 6pm — and is now staring at a defects email about a project that handed over five years ago. Build Register is built so the 11pm version of you doesn't have to find anything. The record is intact. The photos are anchored. The follow-up lives in the system, not buried in an 800-message WhatsApp thread or a folder someone took with them when they left.
+      </p>
+      <p class="stress-tag">Construction is hard enough without paperwork being the part that breaks you.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ══ PROBLEM ══ -->
 <section class="problem" id="problem">
   <div class="container">
@@ -438,17 +566,21 @@
         <div class="section-label">The Problem</div>
         <div class="big-num">$400B</div>
         <p class="body-text">
-          Lost to construction disputes, defects, and unverifiable warranty claims every year. The industry has no standard, tamper-proof way to issue, track, or verify warranties.
+          Lost every year to construction disputes, defects, and unverifiable warranty claims. The industry runs on PDFs, WhatsApp threads, and the assumption that the person who knew where the files were is still around to find them.
         </p>
+        <div class="liability-strip">
+          <span class="liability-strip-label">Decennial liability — across most jurisdictions</span>
+          <strong>UAE Art. 880</strong> · <strong>France Art. 1792</strong> · <strong>Spain LOE Art. 17</strong> · <strong>KSA Art. 222</strong> · <strong>UK Building Safety Act</strong> (15-year retroactive on dwellings) · <strong>Italy Art. 1669</strong> — builders, architects, and developers carry decade-or-longer post-handover liability in nearly every market that matters. The fight is always on paperwork.
+        </div>
       </div>
       <div>
         <h2>Construction runs on paper.<br/>Paper doesn't hold up.</h2>
         <ul class="problem-list">
-          <li><span class="xi">✗</span><span>Warranties issued on PDFs that can be altered, lost, or disputed with no audit trail</span></li>
-          <li><span class="xi">✗</span><span>No single source of truth across developers, contractors, and property owners</span></li>
-          <li><span class="xi">✗</span><span>Claims processes are slow, opaque, and impossible to independently verify</span></li>
-          <li><span class="xi">✗</span><span>Regulators, insurers, and buyers have no independent verification layer</span></li>
-          <li><span class="xi">✗</span><span>Post-handover accountability collapses — nobody can prove who issued what and when</span></li>
+          <li><span class="xi">✗</span><span>"I sent you that snag last month." "I never received it." Meanwhile the WhatsApp group is 800 messages deep and the photo is in someone's camera roll.</span></li>
+          <li><span class="xi">✗</span><span>Five years post-handover, a defect emerges — and the warranty chain lives on a hard drive that walked out the door with the project manager.</span></li>
+          <li><span class="xi">✗</span><span>Retention is held up over a snag everyone agrees was rectified — but nobody can find the photo proof, and the vendor's number changed.</span></li>
+          <li><span class="xi">✗</span><span>The investor due-diligence call needs the warranty pack by Friday. Three are missing. Two are unreadable. One is in Arabic and the other is in English and they don't match.</span></li>
+          <li><span class="xi">✗</span><span>The FM director walks into a chiller failure with no way to verify whether it's covered, by whom, or until when — until they pay out-of-pocket and bill the owner.</span></li>
         </ul>
       </div>
     </div>
@@ -490,9 +622,9 @@
         <p>Anyone can verify a warranty certificate using its ID. No login required. Built for owners, regulators, and insurers.</p>
       </div>
       <div class="feat-card">
-        <div class="feat-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2)">🔐</div>
-        <h3>Role-Based Access</h3>
-        <p>AccessManager contract governs who can issue warranties, log claims, and attach documents — no rogue edits, no data drift.</p>
+        <div class="feat-icon" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2)">📷</div>
+        <h3>Photo-Anchored Snagging</h3>
+        <p>Every snag becomes a record — location, vendor, photos, status, sign-off — anchored on-chain and routed to the right party. End of "I never got that snag." End of retention disputes over rectifications nobody can prove.</p>
       </div>
     </div>
   </div>
@@ -503,27 +635,27 @@
   <div class="container">
     <div class="handover-top">
       <div class="section-label" style="color:#d8b4fe">The Handover Advantage</div>
-      <h2>Every platform handles day one.<br/>We handle <span class="gradient-text-purple">handover.</span></h2>
+      <h2>Day one is easy.<br/><span class="gradient-text-purple">Day three thousand six hundred and fifty</span> is what we built for.</h2>
       <p class="body-text">
-        Registering warranties at project completion is the easy part. The hard part is what happens when the building changes hands — when files scatter, links break, and custody gets blurry. Build Register is built around the moment most systems fall apart.
+        Registering warranties at project completion is the easy part. The hard part is the decade after handover — when files scatter, links break, custody gets blurry, and the person who promised something is not the person being asked to prove it. Build Register is built around the moment every other system falls apart.
       </p>
     </div>
 
     <div class="handover-pillars">
       <div class="hpill">
+        <div class="hpill-icon">🛡️</div>
+        <h3>The Custodian Holds the Records</h3>
+        <p>Documents live in your own storage, not ours. We anchor cryptographic proofs on-chain; you keep the files. If Build Register ever disappears, your data goes nowhere — because we never held it.</p>
+      </div>
+      <div class="hpill">
         <div class="hpill-icon">🪪</div>
-        <h3>Digital Property Asset Passport</h3>
-        <p>Every property gets a verifiable digital record that travels with the building — carrying its warranties, documents, and history through every transfer.</p>
+        <h3>One Property Asset Passport per Building</h3>
+        <p>Every project, asset, and unit gets a verifiable digital identity that travels with the building — carrying its warranties, documents, vendor obligations, and claim history through every change of hands.</p>
       </div>
       <div class="hpill">
         <div class="hpill-icon">⚡</div>
-        <h3>One Atomic Transfer</h3>
-        <p>When a property changes hands, the Passport moves — and every warranty, document, and claim record moves with it. One transaction. Zero files lost.</p>
-      </div>
-      <div class="hpill">
-        <div class="hpill-icon">🛡️</div>
-        <h3>Customer Holds the Records</h3>
-        <p>Documents live in your own storage, not ours. We anchor cryptographic proofs on-chain; you keep the files. If Build Register ever disappears, your data goes nowhere — because we never held it.</p>
+        <h3>Atomic Transfer in Minutes</h3>
+        <p>When the keys change hands, the passport moves — every warranty, document, and claim record in a single on-chain transaction. Wholly intact. Zero files lost. Zero email war.</p>
       </div>
     </div>
 
@@ -621,8 +753,8 @@
   <div class="container">
     <div class="section-intro">
       <div class="section-label">How It Works</div>
-      <h2>End-to-end in five steps.</h2>
-      <p class="body-text">Designed to feel familiar to construction professionals, backed by immutable on-chain records.</p>
+      <h2>End-to-end in six steps.</h2>
+      <p class="body-text">Designed to feel familiar to construction professionals, backed by immutable on-chain records and photo-anchored evidence.</p>
     </div>
     <div class="steps">
       <div class="step">
@@ -636,6 +768,11 @@
         <div class="step-desc">Contractors and assets linked to the project with role-based permissions</div>
       </div>
       <div class="step">
+        <div class="step-num">📷</div>
+        <div class="step-title">Snag &amp; Sign-off</div>
+        <div class="step-desc">Snags logged with photos, location, and vendor — anchored on-chain, signed off in writing</div>
+      </div>
+      <div class="step">
         <div class="step-num">📜</div>
         <div class="step-title">Issue Warranty</div>
         <div class="step-desc">Certificate issued on-chain with category, duration, and responsible parties</div>
@@ -643,7 +780,7 @@
       <div class="step">
         <div class="step-num">⚡</div>
         <div class="step-title">Log Claims</div>
-        <div class="step-desc">Defects filed against specific warranties with IPFS-anchored evidence</div>
+        <div class="step-desc">Defects filed against specific warranties with photo evidence and audit trail</div>
       </div>
       <div class="step">
         <div class="step-num">🔎</div>
@@ -716,12 +853,10 @@
     </div>
     <div class="founder-note">
       <blockquote>
-        "I've built the contracts, the dashboard, and the deployment pipeline. The product works —
-        you can connect a wallet and write to the chain right now. What I need are co-builders
-        who believe that construction deserves the same trust infrastructure that finance has had for decades."
+        "Every CAFM, every Procore, every Yardi makes the operator a hostage to the platform. Build Register makes the custodian sovereign. The contracts are deployed, the dashboard is live, the wedge is unusual and defensible. I'm looking for the right people to build the category — and the right operators to be the lighthouses."
       </blockquote>
       <cite>— Karim, Founder of Build Register</cite>
-      <a class="btn-cta-primary" href="mailto:info@build-register.com">Get in Touch →</a>
+      <a class="btn-cta-primary" href="mailto:info@build-register.com">Talk to the Founder →</a>
     </div>
   </div>
 </section>
@@ -730,11 +865,16 @@
 <section class="final-cta">
   <div class="container">
     <div class="section-label">Ready?</div>
-    <h2>See it. Build it. Back it.</h2>
-    <p class="body-text">The dashboard is live. The contracts are deployed. You can connect a wallet and write to the chain right now.</p>
+    <h2>A property asset passport you control.</h2>
+    <p class="body-text">The dashboard is live. The contracts are deployed. The wedge is custody, not custody-as-a-service. Pick the door that fits — every conversation starts with the same promise.</p>
     <div class="final-btns">
-      <a class="btn-cta-primary" href="https://app.build-register.com" target="_blank" rel="noopener noreferrer">View Live Demo →</a>
-      <a class="btn-cta-secondary" href="mailto:info@build-register.com">Contact the Founder →</a>
+      <a class="btn-cta-primary" href="mailto:info@build-register.com?subject=Handover%20Audit%20%E2%80%94%20Developer">Developer · Book a Handover Audit →</a>
+      <a class="btn-cta-secondary" href="mailto:info@build-register.com?subject=Handover%20Pack%20Comparison%20%E2%80%94%20Contractor">Contractor · Get the Pack Comparison →</a>
+    </div>
+    <div class="final-btns" style="margin-top:12px;">
+      <a class="btn-cta-secondary" href="mailto:info@build-register.com?subject=Coverage%20Recovery%20Pilot%20%E2%80%94%20FM">FM · Coverage Recovery Pilot →</a>
+      <a class="btn-cta-secondary" href="mailto:info@build-register.com?subject=Mandate%20Transition%20Demo%20%E2%80%94%20PM">PM · Mandate-Transition Demo →</a>
+      <a class="btn-cta-secondary" href="https://app.build-register.com" target="_blank" rel="noopener noreferrer">Try the Live Dashboard →</a>
     </div>
   </div>
 </section>
